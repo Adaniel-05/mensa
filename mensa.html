@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Para la mensa</title>
+    <style>
+        /* Fondo rojo pastel y ajustes para celular */
+        body {
+            background-color: #ffb3b3; /* Rojo pastel */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden; /* Evita que la pantalla se mueva con las burbujas */
+            text-align: center;
+        }
+
+        h1 {
+            color: #8b0000;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            padding: 0 20px;
+        }
+
+        /* Diseño del botón de rata */
+        #botonRata {
+            background: none;
+            border: none;
+            font-size: 100px; /* Tamaño gigante para la rata */
+            cursor: pointer;
+            transition: transform 0.1s;
+            z-index: 10; /* Para que la rata siempre esté al frente */
+            -webkit-tap-highlight-color: transparent; /* Quita el cuadro azul al tocar en celular */
+        }
+
+        /* Efecto al presionar la rata */
+        #botonRata:active {
+            transform: scale(0.8);
+        }
+
+        /* Estilo de las burbujas flotantes */
+        .burbuja {
+            position: absolute;
+            background-color: white;
+            color: #333;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+            pointer-events: none; /* Para que no interfieran al hacer clic */
+            animation: flotar 3s ease-in-out forwards;
+            white-space: nowrap;
+            z-index: 5;
+        }
+
+        /* Animación para que suban y desaparezcan */
+        @keyframes flotar {
+            0% {
+                opacity: 0;
+                transform: translateY(0) scale(0.5);
+            }
+            15% {
+                opacity: 1;
+                transform: translateY(-50px) scale(1.1);
+            }
+            30% {
+                transform: translateY(-100px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-400px) scale(0.8); /* Sube bastante y se hace transparente */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>presiona el boton mensa</h1>
+    
+    <button id="botonRata">🐀</button>
+
+    <script>
+        // Aquí puedes editar, borrar o agregar hasta tener tus 50 mensajes
+        const mensajes = [
+            "eres una rata",
+            "cara de cola",
+            "gusano",
+            "cucaracha",
+            "te odio mucho",
+            "gracias por aparecer en mi vida",
+            "espero valorarte como lo deseas",
+            "pitufo gruñon",
+            "renegona",
+            "lemur",
+            "snoopy",
+            "te quiero cuidar",
+            "tarada",
+            "estupida",
+            "te llevo para que me lleves",
+            "no sabes como ansio el dia de conocernos",
+            "tengo ganas de golpearte mucho",
+            "siempre voy a estar para ti, de verdad",
+            "eres especial, literalmente",
+            "eres especial para mi, ahora si enserio",
+            "quiero hacer las cosas bien contigo",
+            "idiota",
+            "te ganaste un lugar en mi vida y en mi dia",
+            "espero estar haciendo las cosas bien",
+            "eres una mongola",
+            "veamos muchas peliculas juntos",
+            "siempre me haces reir",
+            "sonsa",
+            "pendeja",
+            "ojala los 100 mensajes en cada chat sean por siempre",
+            "quiero conocerte tal y como eres",
+            "adn prematuro",
+            "humana semidesarrollada",
+            "gracias.",
+            "eres la mejor",
+            "no te desaparezcas mas",
+            "jugemos mas juegos de todo tipo",
+            "salgamos a muchos lugares",
+            "espero esto crezca como es debido",
+            "eres un libro que quiero leer",
+            "enojona"
+        ];
+
+        const botonRata = document.getElementById('botonRata');
+
+        botonRata.addEventListener('click', () => {
+            // Crear el elemento de la burbuja
+            const burbuja = document.createElement('div');
+            burbuja.classList.add('burbuja');
+
+            // Seleccionar un mensaje aleatorio de la lista
+            const mensajeAleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];
+            burbuja.innerText = mensajeAleatorio;
+
+            // Posición aleatoria horizontal para que no salgan todas en el mismo lugar
+            // Sale entre el 10% y el 70% del ancho de la pantalla para que no se corte
+            const randomX = Math.floor(Math.random() * 60) + 10; 
+            burbuja.style.left = randomX + 'vw';
+            
+            // Posición de inicio desde abajo (cerca del botón)
+            burbuja.style.bottom = '30vh';
+
+            // Agregar la burbuja a la pantalla
+            document.body.appendChild(burbuja);
+
+            // Eliminar la burbuja de la memoria después de 3 segundos (lo que dura la animación)
+            setTimeout(() => {
+                burbuja.remove();
+            }, 3000);
+        });
+    </script>
+
+</body>
+</html>
