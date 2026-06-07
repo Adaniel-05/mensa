@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para la mensa</title>
     <style>
-        /* Fondo degradado rojo pastel y ajustes generales */
+        /* Fondo degradado rojo vino profundo y ajustes generales */
         body {
-            background: linear-gradient(135deg, #ffb3b3 0%, #ffe3e3 100%);
+            background: linear-gradient(135deg, #2A0105 0%, #4D0000 100%);
             margin: 0;
             padding: 0;
             display: flex;
@@ -46,11 +46,11 @@
 
         /* Título aesthetic */
         h1 {
-            color: #b33939;
+            color: #FBF1D1;
             font-size: 2.2rem;
             margin-bottom: 20px;
             padding: 0 20px;
-            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.6);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
             font-weight: 700;
             z-index: 10;
         }
@@ -98,26 +98,27 @@
         /* Estilo de las burbujas flotantes de mensajes */
         .burbuja {
             position: absolute;
-            background: rgba(255, 255, 255, 0.92);
-            color: #b33939;
+            /* AQUI ESTÁ LA CORRECCIÓN: Fondo crema y texto color vino */
+            background: #FBF1D1;
+            color: #4D0000; 
             padding: 14px 22px;
             border-radius: 25px;
             font-weight: bold;
             font-size: 1.05rem;
-            box-shadow: 0px 8px 20px rgba(179, 57, 57, 0.15);
-            border: 1.5px solid #ffb3b3;
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+            border: 1.5px solid #FBF1D1;
             pointer-events: none; 
-            animation: flotarMensaje 3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-            z-index: 5;
+            animation: flotarMensaje 6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            z-index: 20; /* Asegura que pase por encima del título */
             
-            /* --- CORRECCIONES APLICADAS AQUÍ --- */
-            white-space: normal; /* Permite que el texto baje de línea */
-            max-width: 85vw; /* Evita que sea más ancha que la pantalla */
-            text-align: center; /* Centra el texto */
-            box-sizing: border-box; /* El padding no rompe el ancho */
+            /* Ajustes para textos largos en celular */
+            white-space: normal; 
+            max-width: 85vw; 
+            text-align: center; 
+            box-sizing: border-box; 
         }
 
-        /* Animación mejorada para centrar los mensajes desde su origen (-50% en X) */
+        /* Animación mejorada para centrar los mensajes desde su origen */
         @keyframes flotarMensaje {
             0% {
                 opacity: 0;
@@ -125,14 +126,14 @@
             }
             12% {
                 opacity: 1;
-                transform: translateX(-50%) translateY(-40px) scale(1.05) rotate(3deg);
+                transform: translateX(-50%) translateY(-50px) scale(1.05) rotate(3deg);
             }
             25% {
-                transform: translateX(-50%) translateY(-80px) scale(1) rotate(0deg);
+                transform: translateX(-50%) translateY(-100px) scale(1) rotate(0deg);
             }
             100% {
                 opacity: 0;
-                transform: translateX(-50%) translateY(-350px) scale(0.85); 
+                transform: translateX(-50%) translateY(-600px) scale(0.85); 
             }
         }
     </style>
@@ -233,19 +234,16 @@
             const mensajeAleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];
             burbuja.innerText = mensajeAleatorio;
 
-            // Rango ajustado (20% al 80%) para que en combinación con el translateX(-50%)
-            // las burbujas no se salgan nunca de los bordes del celular.
             const randomX = Math.floor(Math.random() * 60) + 20; 
             burbuja.style.left = randomX + 'vw';
             
-            // Inicia justo encima de la rata
             burbuja.style.bottom = '42vh';
 
             document.body.appendChild(burbuja);
 
             setTimeout(() => {
                 burbuja.remove();
-            }, 3000);
+            }, 6000);
         });
     </script>
 
