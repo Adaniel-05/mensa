@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para la mensa</title>
     <style>
-        /* Fondo rojo pastel y ajustes para celular */
+        /* Fondo degradado rojo pastel y ajustes generales */
         body {
-            background-color: #ffb3b3; /* Rojo pastel */
+            background: linear-gradient(135deg, #ffb3b3 0%, #ffe3e3 100%);
             margin: 0;
             padding: 0;
             display: flex;
@@ -15,77 +15,158 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden; /* Evita que la pantalla se mueva con las burbujas */
+            font-family: 'Quicksand', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden; 
             text-align: center;
+            position: relative;
         }
 
+        /* Capa para las estrellitas de fondo */
+        .estrellas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .estrella {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.85);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: parpadear var(--duracion) ease-in-out infinite alternate;
+        }
+
+        @keyframes parpadear {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Título aesthetic */
         h1 {
-            color: #8b0000;
-            font-size: 2rem;
-            margin-bottom: 30px;
+            color: #b33939;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
             padding: 0 20px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.6);
+            font-weight: 700;
+            z-index: 10;
         }
 
-        /* Diseño del botón de rata */
+        /* Contenedor y diseño del botón de rata */
+        .contenedor-rata {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Brillo rosa pastel detrás de la rata */
+        .contenedor-rata::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle, rgba(255,182,193,0.8) 0%, rgba(255,255,255,0) 70%);
+            z-index: -1;
+        }
+
         #botonRata {
             background: none;
             border: none;
-            font-size: 100px; /* Tamaño gigante para la rata */
+            font-size: 110px; 
             cursor: pointer;
             transition: transform 0.1s;
-            z-index: 10; /* Para que la rata siempre esté al frente */
-            -webkit-tap-highlight-color: transparent; /* Quita el cuadro azul al tocar en celular */
+            -webkit-tap-highlight-color: transparent; 
+            animation: flotarRata 3s ease-in-out infinite;
+        }
+
+        /* Animación suave para que la rata flote */
+        @keyframes flotarRata {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         /* Efecto al presionar la rata */
         #botonRata:active {
-            transform: scale(0.8);
+            transform: scale(0.85) !important;
         }
 
-        /* Estilo de las burbujas flotantes */
+        /* Estilo de las burbujas flotantes de mensajes */
         .burbuja {
             position: absolute;
-            background-color: white;
-            color: #333;
-            padding: 12px 20px;
-            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.92);
+            color: #b33939;
+            padding: 14px 22px;
+            border-radius: 25px;
             font-weight: bold;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-            pointer-events: none; /* Para que no interfieran al hacer clic */
-            animation: flotar 3s ease-in-out forwards;
+            font-size: 1.05rem;
+            box-shadow: 0px 8px 20px rgba(179, 57, 57, 0.15);
+            border: 1.5px solid #ffb3b3;
+            pointer-events: none; 
+            animation: flotarMensaje 3s cubic-bezier(0.25, 1, 0.5, 1) forwards;
             white-space: nowrap;
             z-index: 5;
         }
 
-        /* Animación para que suban y desaparezcan */
-        @keyframes flotar {
+        /* Animación mejorada para los mensajes */
+        @keyframes flotarMensaje {
             0% {
                 opacity: 0;
-                transform: translateY(0) scale(0.5);
+                transform: translateY(0) scale(0.6) rotate(-5deg);
             }
-            15% {
+            12% {
                 opacity: 1;
-                transform: translateY(-50px) scale(1.1);
+                transform: translateY(-40px) scale(1.05) rotate(3deg);
             }
-            30% {
-                transform: translateY(-100px) scale(1);
+            25% {
+                transform: translateY(-80px) scale(1) rotate(0deg);
             }
             100% {
                 opacity: 0;
-                transform: translateY(-400px) scale(0.8); /* Sube bastante y se hace transparente */
+                transform: translateY(-350px) scale(0.85); 
             }
         }
     </style>
 </head>
 <body>
 
-    <h1>presiona el boton mensa</h1>
+    <div class="estrellas" id="contenedorEstrellas"></div>
+
+    <h1>presiona el botón mensa</h1>
     
-    <button id="botonRata">🐀</button>
+    <div class="contenedor-rata">
+        <button id="botonRata">🐀</button>
+    </div>
 
     <script>
-        // Aquí puedes editar, borrar o agregar hasta tener tus 50 mensajes
+        // Generar estrellitas bonitas de forma aleatoria al cargar la página
+        const contenedorEstrellas = document.getElementById('contenedorEstrellas');
+        const totalEstrellas = 45; // Cantidad de estrellas en el fondo
+
+        for (let i = 0; i < totalEstrellas; i++) {
+            const estrella = document.createElement('div');
+            estrella.classList.add('estrella');
+            
+            // Tamaños aleatorios para variedad
+            const tamaño = Math.random() * 8 + 6; // Entre 6px y 14px
+            estrella.style.width = tamaño + 'px';
+            estrella.style.height = tamaño + 'px';
+            
+            // Posiciones aleatorias en toda la pantalla
+            estrella.style.left = Math.random() * 100 + 'vw';
+            estrella.style.top = Math.random() * 100 + 'vh';
+            
+            // Tiempos de parpadeo aleatorios para que se vea natural
+            estrella.style.setProperty('--duracion', (Math.random() * 2 + 1) + 's');
+            
+            contenedorEstrellas.appendChild(estrella);
+        }
+
+        // Tus mensajes
         const mensajes = [
             "eres una rata",
             "cara de cola",
@@ -127,32 +208,68 @@
             "salgamos a muchos lugares",
             "espero esto crezca como es debido",
             "eres un libro que quiero leer",
-            "enojona"
+            "enojona",
+            "rata de desague",
+            "cucaracha fumigada",
+            "mosca de basurero",
+            "paloma con sarna",
+            "mapache rabioso",
+            "garrapata llena",
+            "gusano de alcantarilla",
+            "sanguijuela",
+            "piojo aplastado",
+            "sapa fea",
+            "babosa de jardin",
+            "murcielago ciego",
+            "pez apestosa",
+            "popo de paloma",
+            "pendeja",
+            "gracias a ti mi vida gris tiene color",
+            "gracias a dios que me cruzo contigo",
+            "mi vida sin ti era muy aburrida",
+            "haces que este mundo caotico sea un lugar mas bonito",
+            "si hubiera otra vida, te buscaria nuevamente",
+            "me alegra cuando te abres a mi y me dejas conocerte mas",
+            "me encanta escucharte hablar de cosas que te gustan",
+            "tus mensajes siempre me cambian el dia, aunque sea una tonteria",
+            "contigo puedo ser 100% yo, sin filtros",
+            "gracias por siempre escucharme y siempre me gusta escucharte a ti",
+            "armame mil dramas",
+            "me fascina ver como compartes tu dia conmigo siempre",
+            "quiero que recuerdes que siempre voy a estar ahi",
+            "ojala te vieras a traves de mis ojos para que veas lo importante que eres para mi",
+            "quiero llegar hasta viejitos contigo, y reirnos siempre de las mismas tonteras",
+            "siempre voy a celebrar tus logros como si fueran mios, porque me gusta verte crecer",
+            "tienes esa magia de hacer que un dia normal, sea uno especial",
+            "eres como una bonita cancion de rock",
+            "hay personas que son estrellas, pero tu eres el cielo entero",
+            "eres el verso mas bonito que Dios escribio en mi vida",
+            "a veces pienso: que boonito es coincidir en el mismo tiempo que tu",
+            "se que no sabes expresarte bien, asi que sere cursi por los dos",
+            "me gusta descifrar tu forma de quererme",
+            "quedate siempre cerca porfa",
+            "te quiero mucho"
+
         ];
 
         const botonRata = document.getElementById('botonRata');
 
         botonRata.addEventListener('click', () => {
-            // Crear el elemento de la burbuja
             const burbuja = document.createElement('div');
             burbuja.classList.add('burbuja');
 
-            // Seleccionar un mensaje aleatorio de la lista
             const mensajeAleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];
             burbuja.innerText = mensajeAleatorio;
 
-            // Posición aleatoria horizontal para que no salgan todas en el mismo lugar
-            // Sale entre el 10% y el 70% del ancho de la pantalla para que no se corte
-            const randomX = Math.floor(Math.random() * 60) + 10; 
+            // Rango seguro horizontal (15% al 65%) para que entren bien textos largos
+            const randomX = Math.floor(Math.random() * 50) + 15; 
             burbuja.style.left = randomX + 'vw';
             
-            // Posición de inicio desde abajo (cerca del botón)
-            burbuja.style.bottom = '30vh';
+            // Inicia justo encima de la rata
+            burbuja.style.bottom = '42vh';
 
-            // Agregar la burbuja a la pantalla
             document.body.appendChild(burbuja);
 
-            // Eliminar la burbuja de la memoria después de 3 segundos (lo que dura la animación)
             setTimeout(() => {
                 burbuja.remove();
             }, 3000);
